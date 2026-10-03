@@ -1,3 +1,10 @@
+// Miri can't spawn and inspect a real child process (it needs
+// std::env::current_exe(), which requires readlink, unsupported under
+// Miri's isolation), and this whole file exists only for that child-process
+// test, so it follows the same convention as test_deserialize_from_stream
+// in tests/test.rs for the same underlying reason.
+#![cfg(not(miri))]
+
 // Regression test for a missing recursion-depth guard in `Deserialize for
 // Value` (src/value/de.rs) when it is driven by a `serde::Deserializer`
 // other than serde_json's own JSON-text one.
